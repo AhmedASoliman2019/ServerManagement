@@ -1,8 +1,15 @@
 ﻿@page "/servers"
 
-<p>
-    <ServerComponent ></ServerComponent>
-</p>
-@code {
+<div>
+    <h3>Servers available</h3>
+    <ul>
+        @foreach (Server s in servers)
+        {
+            <li>Server id: @s.Id is named @s.Name and is located in @s.City - <span style="color: @(s.IsOnline? "green": "red")> is @(s.IsOnline? "Online": "Offline")" </span> </li>
+        }
+    </ul>
 
+</div>
+@code {
+    private List<Server> servers = ServersRepository.GetServres();
 }
