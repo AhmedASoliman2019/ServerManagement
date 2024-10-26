@@ -1,8 +1,8 @@
 ﻿<h3>ServerComponent</h3>
 <p>
-    Server @srv.ServerName status is @srv.IsOnline
+    Server @srv.ServerName located in @srv.ServerCity status is <span style="color: @(srv.IsOnline==true?"green":"red")">@(srv.IsOnline == true? "Online": "Offline")</span> 
 </p>
 
 @code {
-    private ServerManagement.Models.Server srv = new ServerManagement.Models.Server { ServerId = 0, ServerName = "Server 1", ServerCity="Toronto" };
+    private Server srv = new Server { ServerId = 0, ServerName = "Server 1", ServerCity="Toronto" };
 }
