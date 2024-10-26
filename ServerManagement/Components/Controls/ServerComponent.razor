@@ -1,11 +1,1 @@
-﻿<h3>ServerComponent</h3>
-<p>
-
-
-    @ServersRepository.GetServres().ForEach()
-    Server @srv.Name located in @srv.City status is <span style="color: @(srv.IsOnline==true?"green":"red")">@(srv.IsOnline == true? "Online": "Offline")</span> 
-</p>
-
-@code {
-    private Server srv = new Server { Id = 0, Name = "Server 1", City="Toronto" };
-}
+﻿
