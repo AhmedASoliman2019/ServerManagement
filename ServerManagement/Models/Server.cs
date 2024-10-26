@@ -2,9 +2,9 @@
 {
     public class Server
     {
-        public int ServerId { get; set; }
-        public string? ServerName { get; set; }
-        public string? ServerCity { get; set; }
+        public int Id { get; set; }
+        public string? Name { get; set; }
+        public string? City { get; set; }
         public bool IsOnline { get; set; }
 
         public Server()
