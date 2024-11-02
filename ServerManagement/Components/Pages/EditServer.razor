@@ -1,10 +1,25 @@
 ﻿@page "/EditServer/{id:int}"
+@inject NavigationManager navman
 <h3>EditServer</h3>
-<div class="row">
+<br />
+<br />
+<div class="row row-cols-xl-6">
     <div class="col"> <p>Server ID: </p> </div>
-    <div class="col"><strong>@Id</strong></div>
+    <div class="col"><strong>@CurrentServer.Id</strong></div>
+</div>
+<div class="row row-cols-xl-6">
+    <div class="col"> <p>Server Name: </p> </div>
+    <div class="col"><strong>@CurrentServer.Name</strong></div>
 </div>
 @code {
     [Parameter]
-    public int? Id { get; set; }
+    public int Id { get; set; }
+
+    public Server CurrentServer { get; set; }
+
+    protected override void OnParametersSet()
+    {
+        this.CurrentServer = ServersRepository.GetServerById(Id);
+    }
+   
 }
