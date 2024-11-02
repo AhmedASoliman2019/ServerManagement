@@ -40,7 +40,7 @@
                 <div class="col"><strong style="color: @(s.IsOnline ? "green" : "red")">@(s.IsOnline ? "Online" : "Offline")</strong></div>
             </div>
         </div>*@
-    <div class="row">
+    <div class="row border-bottom">
         <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
         <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
         <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
