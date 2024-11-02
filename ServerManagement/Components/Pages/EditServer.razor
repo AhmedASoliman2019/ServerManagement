@@ -1,26 +1,58 @@
 ﻿@page "/EditServer/{id:int}"
 @inject NavigationManager navman
-<h3>EditServer</h3>
+<h3>Edit Server</h3>
 <br />
 <br />
-<div class="row row-cols-xl-6">
-    <div class="col"> <p>Server ID: </p> </div>
-    <div class="col"><strong>@CurrentServer.Id</strong></div>
-</div>
-<div class="row row-cols-xl-6">
-    <div class="col"> <p>Server Name: </p> </div>
-    <div class="col"><strong>@CurrentServer.Name</strong></div>
-</div>
+@*<div class="row row-cols-xl-6">
+        <div class="col"> <p>Server ID: </p> </div>
+        <div class="col"><strong>@CurrentServer.Id</strong></div>
+    </div>
+    <div class="row row-cols-xl-6">
+        <div class="col"> <p>Server Name: </p> </div>
+        <div class="col"><strong>@CurrentServer.Name</strong></div>
+    </div>*@
+<EditForm Model="CurrentServer" FormName="EditServerForm" OnValidSubmit="SubmitServer">
+    <div class="form-control">
+        <InputNumber @bind-Value="CurrentServer.Id" hidden/>
+        <label for="ServerName" class="form-label">Server name</label>
+        <InputText @bind-Value="CurrentServer.Name" class="form-control" id="ServerName" />
+        <div id="Helper" class="form-text">
+            The main server identifier, can't be duplicated
+        </div>
+
+        <label for="ServerCity" class="form-label">Server city</label>
+        <InputText @bind-Value="CurrentServer.City" class="form-control" id="ServerCity" />
+        <div id="Helper" class="form-text">
+            City where the server resides
+        </div>
+
+        <label for="IsOnline" class="form-check-label">Online status</label>
+        <InputCheckbox @bind-Value="CurrentServer.IsOnline" class="form-check-input" id="IsOnline" />
+        <div id="Helper" class="form-text">
+            Server Online status
+        </div>
+    </div>
+    <button type="submit" class="btn-primary">Save</button>
+</EditForm>
 <NavLink href="/Servers">Back</NavLink>
 @code {
     [Parameter]
     public int Id { get; set; }
 
+    [SupplyParameterFromForm(FormName = "EditServerForm")]
     public Server CurrentServer { get; set; }
 
+    void SubmitServer()
+    {
+        if (CurrentServer != null)
+        {
+            ServersRepository.UpdateServer(CurrentServer.Id, CurrentServer);
+            navman.NavigateTo("/servers");
+        }
+    }
     protected override void OnParametersSet()
     {
-        this.CurrentServer = ServersRepository.GetServerById(Id);
+        this.CurrentServer??= ServersRepository.GetServerById(Id);
     }
-   
+
 }
