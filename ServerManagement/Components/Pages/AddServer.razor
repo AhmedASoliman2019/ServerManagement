@@ -28,7 +28,7 @@
 <NavLink href="/Servers">Back</NavLink>
 
 @code {
-    [SupplyParameterFromForm(FormName = "AddServerForm")]
+    [SupplyParameterFromForm(FormName = "AddServerForm")] //Very important
     public Server CurrentServer { get; set; } = new Server() { Id = ServersRepository.GetServres().Count + 1 };
 
 
