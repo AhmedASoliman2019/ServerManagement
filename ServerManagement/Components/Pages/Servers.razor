@@ -25,30 +25,15 @@
 <br />
 @foreach (Server s in AllServers)
 {
-    @*<div class="row">
-            <div class="col">Server ID:</div>
-            <div class="col"><strong>@s.Id</strong></div>
-            <div class="row">
-                <div class="col">Server Name:</div>
-                <div class="col"><strong>@s.Name</strong></div>
-            </div>
-            <div class="row">
-                <div class="col">Server City:</div>
-                <div class="col"><strong>@s.City</strong></div>
-            </div>
-            <div class="row">
-                <div class="col">Server status</div>
-                <div class="col"><strong style="color: @(s.IsOnline ? "green" : "red")">@(s.IsOnline ? "Online" : "Offline")</strong></div>
-            </div>
-        </div>*@
-<EditForm Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
-    <div class="row border-bottom">
-        <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
-        <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
-        <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
-        <div class="col"><button class="link-primary" onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
-    </div>
-</EditForm>
+
+    <EditForm Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
+        <div class="row border-bottom">
+            <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
+            <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
+            <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
+            <div class="col"><button class="link-primary" onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
+        </div>
+    </EditForm>
 
 
 }
