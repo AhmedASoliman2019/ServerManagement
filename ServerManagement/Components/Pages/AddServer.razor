@@ -1,0 +1,42 @@
+﻿@page "/AddServer"
+@inject NavigationManager NavMan
+
+<h1>Add Server</h1>
+<EditForm Model="CurrentServer" FormName="AddServerForm" OnValidSubmit="SubmitServer">
+    <div class="form-control">
+        <InputNumber @bind-Value="CurrentServer.Id" hidden />
+        <label for="ServerName" class="form-label">Server name</label>
+        <InputText @bind-Value="CurrentServer.Name" class="form-control" id="ServerName" />
+        <div id="Helper" class="form-text">
+            The main server identifier, can't be duplicated
+        </div>
+
+        <label for="ServerCity" class="form-label">Server city</label>
+        <InputText @bind-Value="CurrentServer.City" class="form-control" id="ServerCity" />
+        <div id="Helper" class="form-text">
+            City where the server resides
+        </div>
+
+        <label for="IsOnline" class="form-check-label">Online status</label>
+        <InputCheckbox @bind-Value="CurrentServer.IsOnline" class="form-check-input" id="IsOnline" />
+        <div id="Helper" class="form-text">
+            Server Online status
+        </div>
+    </div>
+    <button type="submit" class="btn-primary">Save</button>
+</EditForm>
+<NavLink href="/Servers">Back</NavLink>
+
+@code {
+    [SupplyParameterFromForm(FormName = "AddServerForm")]
+    public Server CurrentServer { get; set; } = new Server() { Id = ServersRepository.GetServres().Count + 1 };
+
+
+    void SubmitServer()
+    {
+
+        ServersRepository.AddServer(CurrentServer);
+
+        NavMan.NavigateTo("/Servers");
+    }
+    };
