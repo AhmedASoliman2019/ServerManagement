@@ -45,6 +45,6 @@
     void DeleteServer(int ServerId)
     {
         ServersRepository.DeleteServer(ServerId);
-        NavMan.Refresh();
+        NavMan.NavigateTo("/servers");
     }
 }
