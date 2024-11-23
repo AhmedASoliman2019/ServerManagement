@@ -1,4 +1,5 @@
 ﻿@page "/servers"
+@rendermode InteractiveServer
 @inject NavigationManager NavMan
 <div>
     <h1>Select city</h1>
@@ -26,7 +27,7 @@
 @foreach (Server s in AllServers)
 {
 
-    <EditForm Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
+    <EditForm Enhance="true" Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
         <div class="row border-bottom">
             <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
             <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
