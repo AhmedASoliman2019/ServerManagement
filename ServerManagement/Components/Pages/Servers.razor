@@ -11,7 +11,7 @@
                     <div class="card">
                         <img src="@($"/images/{c}.png")" class="card-img-top">
                         <div class="card-body">
-                            <button type="button" class="btn btn-primary">@c</button>
+                            <button type="button" class="btn btn-primary" @onclick="@(() => { UpdateCity(c); } )">@c</button>
                         </div>
                     </div>
                 </div>
@@ -21,25 +21,30 @@
 </div>
 <br />
 <br />
+@CurrentCity
 <h3>Servers listing</h3>
 <br />
 <br />
 @foreach (Server s in AllServers)
 {
-
-    <EditForm Enhance="true" Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
-        <div class="row border-bottom">
-            <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
-            <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
-            <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
-            <div class="col"><button class="link-primary" onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
-        </div>
-    </EditForm>
-
-
+    @*<EditForm Enhance="true" Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
+            <div class="row border-bottom">
+                <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
+                <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
+                <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
+                <div class="col"><button class="link-primary" onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
+            </div>
+        </EditForm>*@
+    <div class="row border-bottom">
+        <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
+        <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
+        <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
+        <div class="col"><button class="link-primary" type="button" @onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
+    </div>
 }
 <a href="/AddServer">Add New</a>
 @code{
+    private string CurrentCity { get; set; }
     private List<Server> CityServers = ServersRepository.GetServersByCity("Toronto");
     private List<Server> AllServers = ServersRepository.GetServres();
     private List<string> cities = CitiesRepository.GetCities();
@@ -47,5 +52,10 @@
     {
         ServersRepository.DeleteServer(ServerId);
         NavMan.NavigateTo("/servers");
+    }
+    void UpdateCity(string city)
+    {
+        CurrentCity = city;
+        AllServers = ServersRepository.GetServersByCity(CurrentCity);
     }
 }
