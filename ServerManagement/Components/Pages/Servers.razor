@@ -8,10 +8,10 @@
             @foreach (string c in cities)
             {
                 <div class="col">
-                    <div class="card">
+                    <div class="card" style="">
                         <img src="@($"/images/{c}.png")" class="card-img-top">
                         <div class="card-body">
-                            <button type="button" class="btn btn-primary" @onclick="@(() => { UpdateCity(c); } )">@c</button>
+                            <button type="button" class="btn btn-secondary" @onclick="@(() => { UpdateCity(c); } )">@c</button>
                         </div>
                     </div>
                 </div>
