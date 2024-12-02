@@ -26,7 +26,7 @@
 <br />
 <br />
 <div class="input-group col-md-3">
-    <input type="text" class="form-control" placeholder="Search Servers" @bind-value="SearchServer" />
+    <input type="text" class="form-control" placeholder="Search Servers" @bind-value="SearchServer" @bind-value:event="oninput" />
     <button type="button" @onclick="HandleSearchServer" class="btn btn-outline-secondary">Search</button>
 </div>
 
@@ -51,7 +51,16 @@
 @code{
     private string CurrentCity { get; set; }
     private string _SearchServer = "";
-    public string SearchServer { get; set; }
+    public string SearchServer
+    {
+        get => _SearchServer;
+        set
+        {
+            _SearchServer = value;
+            AllServers = ServersRepository.SearchServers(_SearchServer);
+
+        }
+    }
     private string styletag = "";
     private List<Server> CityServers = ServersRepository.GetServersByCity("Toronto");
     private List<Server> AllServers = ServersRepository.GetServres();
@@ -66,5 +75,8 @@
         CurrentCity = city;
         styletag = "border: double";
         AllServers = ServersRepository.GetServersByCity(CurrentCity);
+    }
+    void HandleSearchServer()
+    {
     }
 }
