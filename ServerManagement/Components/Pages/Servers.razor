@@ -25,6 +25,11 @@
 <h3>Servers listing</h3>
 <br />
 <br />
+<div class="input-group col-md-3">
+    <input type="text" class="form-control" placeholder="Search Servers" @bind-value="SearchServer" />
+    <button type="button" @onclick="HandleSearchServer" class="btn btn-outline-secondary">Search</button>
+</div>
+
 @foreach (Server s in AllServers)
 {
     @*<EditForm Enhance="true" Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
@@ -45,6 +50,8 @@
 <a href="/AddServer">Add New</a>
 @code{
     private string CurrentCity { get; set; }
+    private string _SearchServer = "";
+    public string SearchServer { get; set; }
     private string styletag = "";
     private List<Server> CityServers = ServersRepository.GetServersByCity("Toronto");
     private List<Server> AllServers = ServersRepository.GetServres();
