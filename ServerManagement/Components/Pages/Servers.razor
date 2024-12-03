@@ -2,89 +2,106 @@
 @rendermode InteractiveServer
 @inject NavigationManager NavMan
 
-<div>
-    <h1>Select city</h1>
-    <div class="container-fluid text-center">
-        <div class="row w-50">
-            @foreach (string c in cities)
-            {
-                <div class="col">
-                    <div class="card" style="border: @(c == CurrentCity ? "Double" : "Single")">
-                        <img src="@($"/images/{c}.png")" class="card-img-top">
-                        <div class="card-body">
-                            <button type="button" class="btn btn-secondary" @onclick="@(() => { UpdateCity(c); } )">@c</button>
+    <div>
+        <h1>Select city</h1>
+        <div class="container-fluid text-center">
+            <div class="row w-50">
+                @foreach (string c in cities)
+                {
+                    <div class="col">
+                        <div class="card" style="border: @(c == CurrentCity ? "Double" : "Single")">
+                            <img src="@($"/images/{c}.png")" class="card-img-top">
+                            <div class="card-body">
+                                <button type="button" class="btn btn-secondary" @onclick="@(() => { UpdateCity(c); } )">@c</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
-</div>
-<br />
-<br />
-@CurrentCity
-<h3>Servers listing</h3>
-<br />
-<br />
-<div class="input-group col-md-3">
-    <input type="text" class="form-control" placeholder="Search Servers" @bind-value="SearchServer" @bind-value:event="oninput" />
-    <button type="button" @onclick="HandleSearchServer" class="btn btn-outline-secondary">Search</button>
-</div>
-
-@foreach (Server s in AllServers)
-{
-    @*<EditForm Enhance="true" Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
-            <div class="row border-bottom">
-                <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
-                <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
-                <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
-                <div class="col"><button class="link-primary" onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
-            </div>
-        </EditForm>*@
-    <div @key="s.Id" class="row border-bottom">
-        <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
-        <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline ? "green" : "red")">@(s.IsOnline ? "Online" : "Offline")</p></div>
-        <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
-        <div class="col"><button class="link-primary" type="button" @onclick="@(() => DeleteServer(s.Id))">Delete</button></div>
+    <br />
+    <br />
+    @CurrentCity
+    <h3>Servers listing</h3>
+    <br />
+    <br />
+    <div class="input-group col-md-3">
+        <input type="text" class="form-control" placeholder="Search Servers" @bind-value="SearchServer" @bind-value:event="oninput" />
+        <button type="button" @onclick="HandleSearchServer" class="btn btn-outline-secondary">Search</button>
     </div>
-}
-<a href="/AddServer">Add New</a>
-<p>
-    <button class="btn btn-outline-secondary" @onclick="@(() =>
+    <Virtualize Items="this.AllServers" Context="s">
+        <div @key="s.Id" class="row border-bottom">
+            <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
+            <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline ? "green" : "red")">@(s.IsOnline ? "Online" : "Offline")</p></div>
+            <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
+            <div class="col"><button class="link-primary" type="button" @onclick="@(() => DeleteServer(s.Id))">Delete</button></div>
+        </div>
+    </Virtualize>
+  
+    @foreach (Server s in AllServers)
+    {
+        @*<EditForm Enhance="true" Model="s" FormName="@($"DeleteServer-{s.Id}")" OnValidSubmit="@(() => DeleteServer(s.Id))">
+                <div class="row border-bottom">
+                    <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
+                    <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
+                    <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
+                    <div class="col"><button class="link-primary" onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
+                </div>
+            </EditForm>*@
+        @*<div @key="s.Id" class="row border-bottom">
+            <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
+            <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline ? "green" : "red")">@(s.IsOnline ? "Online" : "Offline")</p></div>
+            <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
+            <div class="col"><button class="link-primary" type="button" @onclick="@(() => DeleteServer(s.Id))">Delete</button></div>
+        </div>*@
+    }
+    <a href="/AddServer">Add New</a>
+    <p>
+        <button class="btn btn-outline-secondary" @onclick="@(() =>
                                                           {
                                                           AllServers.Insert(0, new Server { Name = "new server", City = "GLOBAL" });
-                                                          })"
->Add Server 2</button>
-</p>
-@code{
-    private string CurrentCity { get; set; }
-    private string _SearchServer = "";
-    public string SearchServer
-    {
-        get => _SearchServer;
-        set
+                                                          })">
+            Add Server 2
+        </button>
+    </p>
+    @code{
+        private string CurrentCity { get; set; }
+        private string _SearchServer = "";
+        public string SearchServer
         {
-            _SearchServer = value;
-            AllServers = ServersRepository.SearchServers(_SearchServer);
+            get => _SearchServer;
+            set
+            {
+                _SearchServer = value;
+                AllServers = ServersRepository.SearchServers(_SearchServer);
+
+            }
+        }
+        private string styletag = "";
+        private List<Server> CityServers = ServersRepository.GetServersByCity("Toronto");
+        private List<Server> AllServers = ServersRepository.GetServres();
+        private List<string> cities = CitiesRepository.GetCities();
+        void DeleteServer(int ServerId)
+        {
+            ServersRepository.DeleteServer(ServerId);
+            NavMan.NavigateTo("/servers");
+        }
+        void UpdateCity(string city)
+        {
+            CurrentCity = city;
+            styletag = "border: double";
+            AllServers = ServersRepository.GetServersByCity(CurrentCity);
+            if (city == "Halifax")
+            {
+                for (int i = 16; i <= 2000; i++)
+                {
+                    AllServers.Add(new Server { Id = i, City = "Halifax", Name = $"Server {i}" });
+                }
+            }
+        }
+        void HandleSearchServer()
+        {
 
         }
     }
-    private string styletag = "";
-    private List<Server> CityServers = ServersRepository.GetServersByCity("Toronto");
-    private List<Server> AllServers = ServersRepository.GetServres();
-    private List<string> cities = CitiesRepository.GetCities();
-    void DeleteServer(int ServerId)
-    {
-        ServersRepository.DeleteServer(ServerId);
-        NavMan.NavigateTo("/servers");
-    }
-    void UpdateCity(string city)
-    {
-        CurrentCity = city;
-        styletag = "border: double";
-        AllServers = ServersRepository.GetServersByCity(CurrentCity);
-    }
-    void HandleSearchServer()
-    {
-    }
-}
