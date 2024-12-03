@@ -1,6 +1,7 @@
 ﻿@page "/servers"
 @rendermode InteractiveServer
 @inject NavigationManager NavMan
+
 <div>
     <h1>Select city</h1>
     <div class="container-fluid text-center">
@@ -8,7 +9,7 @@
             @foreach (string c in cities)
             {
                 <div class="col">
-                    <div class="card" style="border: @(c==CurrentCity? "Double": "Single")">
+                    <div class="card" style="border: @(c == CurrentCity ? "Double" : "Single")">
                         <img src="@($"/images/{c}.png")" class="card-img-top">
                         <div class="card-body">
                             <button type="button" class="btn btn-secondary" @onclick="@(() => { UpdateCity(c); } )">@c</button>
@@ -40,14 +41,21 @@
                 <div class="col"><button class="link-primary" onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
             </div>
         </EditForm>*@
-    <div class="row border-bottom">
+    <div @key="s.Id" class="row border-bottom">
         <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
-        <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline? "green":"red")">@(s.IsOnline? "Online":"Offline")</p></div>
+        <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline ? "green" : "red")">@(s.IsOnline ? "Online" : "Offline")</p></div>
         <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
-        <div class="col"><button class="link-primary" type="button" @onclick="@(()=> DeleteServer(s.Id))">Delete</button></div>
+        <div class="col"><button class="link-primary" type="button" @onclick="@(() => DeleteServer(s.Id))">Delete</button></div>
     </div>
 }
 <a href="/AddServer">Add New</a>
+<p>
+    <button class="btn btn-outline-secondary" @onclick="@(() =>
+                                                          {
+                                                          AllServers.Insert(0, new Server { Name = "new server", City = "GLOBAL" });
+                                                          })"
+>Add Server 2</button>
+</p>
 @code{
     private string CurrentCity { get; set; }
     private string _SearchServer = "";
