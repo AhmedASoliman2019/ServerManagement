@@ -1,0 +1,23 @@
+﻿@inject NavigationManager NavMan;
+
+<div @key="ServerId" class="row border-bottom">
+    <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
+    <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline ? "green" : "red")">@(s.IsOnline ? "Online" : "Offline")</p></div>
+    <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
+    <div class="col"><button class="link-primary" type="button" @onclick="@(() => DeleteServer(s.Id))">Delete</button></div>
+</div>
+
+@code {
+    [Parameter]
+    public int ServerId { get; set; } = 1;
+    private Server s;
+    protected override void OnParametersSet()
+    {
+        s = ServersRepository.GetServerById(ServerId);
+    }
+    void DeleteServer(int ServerId)
+    {
+        ServersRepository.DeleteServer(ServerId);
+        NavMan.NavigateTo("/servers");
+    }
+}

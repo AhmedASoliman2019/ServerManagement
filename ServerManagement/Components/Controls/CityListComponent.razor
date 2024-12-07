@@ -1,0 +1,19 @@
+﻿<div>
+	<h1>Select city</h1>
+	<div class="container-fluid text-center">
+		<div class="row w-50">
+			@foreach (string c in cities)
+			{
+				<SingleCityComponent c="@c" SelectedCityCallback="@HandleCitySelection" CurrentCity="@SelectedCity"></SingleCityComponent>
+			}
+		</div>
+	</div>
+</div>
+@code {
+	private List<string> cities = CitiesRepository.GetCities();
+	private string SelectedCity { get; set; } = "Toronto";
+	private void HandleCitySelection(string CityName)
+	{
+		SelectedCity = CityName;
+	}
+}

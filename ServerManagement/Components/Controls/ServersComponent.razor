@@ -1,12 +1,7 @@
 ﻿@inject NavigationManager NavMan
 
 <Virtualize Items="this.AllServers" Context="s">
-    <div @key="s.Id" class="row border-bottom">
-        <div class="col"><p>Server @s.Name located in @s.City is currently</p></div>
-        <div class="col"> <p style="font-weight: bolder; color: @(s.IsOnline ? "green" : "red")">@(s.IsOnline ? "Online" : "Offline")</p></div>
-        <div class="col"><a href="/EditServer/@s.Id">Edit Server</a></div>
-        <div class="col"><button class="link-primary" type="button" @onclick="@(() => DeleteServer(s.Id))">Delete</button></div>
-    </div>
+    <SingleServerComponent @rendermode="InteractiveServer" ServerId="s.Id"></SingleServerComponent>
 </Virtualize>
 
 @code {
