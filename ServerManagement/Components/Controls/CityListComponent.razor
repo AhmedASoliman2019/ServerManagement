@@ -4,7 +4,7 @@
 		<div class="row w-50">
 			@foreach (string c in cities)
 			{
-				<SingleCityComponent c="@c" SelectedCityCallback="@HandleCitySelection" CurrentCity="@SelectedCity"></SingleCityComponent>
+				<SingleCityComponent c="@c" CurrentCity="@SelectedCity"></SingleCityComponent>
 			}
 		</div>
 	</div>
@@ -12,8 +12,9 @@
 @code {
 	private List<string> cities = CitiesRepository.GetCities();
 	private string SelectedCity { get; set; } = "Toronto";
-	private void HandleCitySelection(string CityName)
+	private EventCallback<string> SelectCityCallback { get; set; }
+	private void SelectCity(string CityName)
 	{
-		SelectedCity = CityName;
+		SelectCityCallback.InvokeAsync(CityName);
 	}
 }
