@@ -12,7 +12,7 @@
 <div class="input-group col-md-3">
     <input type="text" class="form-control" placeholder="Search Servers" @bind-value="SearchServer" @bind-value:event="oninput" />
 </div>
-<ServersComponent @rendermode="InteractiveServer" CityName="@CurrentCity"></ServersComponent>
+<ServersComponent @rendermode="InteractiveServer" ></ServersComponent>
 <a href="/AddServer">Add New</a>
 <p>
     <button class="btn btn-outline-secondary" @onclick="@(() =>
@@ -26,4 +26,10 @@
     public string SearchServer { get; set; }
     private List<Server> AllServers = ServersRepository.GetServres();
     public string CurrentCity { get; set; }
+    public EventCallback<string> CityName { get; set; }
+
+    public void HandleCitySelection(string CityName)
+        {
+
+        }
 }
