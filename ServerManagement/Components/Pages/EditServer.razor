@@ -11,6 +11,10 @@
         <div class="col"> <p>Server Name: </p> </div>
         <div class="col"><strong>@CurrentServer.Name</strong></div>
     </div>*@
+@*<Microsoft.AspNetCore.Components.QuickGrid.QuickGrid>
+
+</Microsoft.AspNetCore.Components.QuickGrid.QuickGrid>*@
+
 <EditForm Model="CurrentServer" FormName="EditServerForm" OnValidSubmit="SubmitServer">
     <div class="form-control">
         <InputNumber @bind-Value="CurrentServer.Id" hidden/>
@@ -32,6 +36,7 @@
             Server Online status
         </div>
     </div>
+
     <button type="submit" class="btn-primary">Save</button>
 </EditForm>
 <NavLink href="/Servers">Back</NavLink>
