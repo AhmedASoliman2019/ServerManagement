@@ -1,7 +1,7 @@
 ﻿@page "/timer"
 @rendermode InteractiveServer
 <div>
-	<h1>@display</h1>
+	<h1>@display.ToString("000")</h1>
 </div>
 <h3>TimerComponent</h3>
 
@@ -10,7 +10,7 @@
 	public int display;
 	protected override void OnAfterRender(bool firstRender)
 	{
-		display = r.Next(0, 100);
+		display = r.Next(0, 500);
 		base.OnAfterRender(firstRender);
 		if (firstRender)
 		{
