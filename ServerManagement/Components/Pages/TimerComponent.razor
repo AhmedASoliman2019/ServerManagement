@@ -18,14 +18,14 @@
 			Timer timer = new Timer(_ =>
 			{
 				base.InvokeAsync(Refresh);
-			}, null, 1000, 5000);
+			}, null, 0, 500);
 		}
 
 
 	}
 	void Refresh()
 	{
-		display = r.Next(0, 100);
+		//display = r.Next(0, 100);
 		StateHasChanged();
 	}
 }
